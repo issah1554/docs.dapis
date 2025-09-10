@@ -1,0 +1,25 @@
+get:
+  summary: Get all projects
+  tags:
+    - Projects
+  responses:
+    '200':
+      description: List of projects
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+
+post:
+  summary: Create a new project
+  tags:
+    - Projects
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+  responses:
+    '201':
+      description: Project created

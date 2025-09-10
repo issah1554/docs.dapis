@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mega API Docs</title>
+    <link rel="stylesheet" href="swagger-ui/swagger-ui.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navbar container */
+        .navbar {
+            display: flex;
+            background-color: #333;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Navigation items */
+        .nav-item {
+            list-style: none;
+        }
+
+        .nav-link {
+            display: block;
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .nav-link:hover {
+            background-color: #575757;
+        }
+
+        .nav-link.active {
+            background-color: #4d90fe;
+            font-weight: bold;
+        }
+
+        /* Container for Swagger UI */
+        #swagger-ui {
+            margin-top: 0;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="navbar">
+        <li class="nav-item"><a class="nav-link" data-url="../apps/auth/openapi.yml">Auth</a></li>
+        <li class="nav-item"><a class="nav-link" data-url="../apps/users/openapi.yml">Users</a></li>
+    </ul>
+
+    <div id="swagger-ui"></div>
+
+    <script src="swagger-ui/swagger-ui-bundle.js"></script>
+    <script src="swagger-ui/swagger-ui-standalone-preset.js"></script>
+    <script>
+        let ui;
+
+        function loadAPI(url) {
+            document.getElementById('swagger-ui').innerHTML = '';
+            ui = SwaggerUIBundle({
+                url: url,
+                dom_id: '#swagger-ui',
+                presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+                layout: "BaseLayout"
+            });
+        }
+
+        // Navbar click handling
+        const links = document.querySelectorAll('.nav-link');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                links.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                loadAPI(link.dataset.url);
+            });
+        });
+
+        // Load default API (Users)
+        const defaultLink = links[1];
+        defaultLink.classList.add('active');
+        loadAPI(defaultLink.dataset.url);
+    </script>
+</body>
+
+</html>

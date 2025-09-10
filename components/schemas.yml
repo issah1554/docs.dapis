@@ -1,0 +1,19 @@
+UUID:
+  type: string
+  format: uuid
+
+ErrorResponse:
+  type: object
+  properties:
+    message:
+      type: string
+    code:
+      type: integer
+
+Pagination:
+  type: object
+  properties:
+    page:
+      type: integer
+    limit:
+      type: integer
