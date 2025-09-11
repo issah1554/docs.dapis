@@ -1,0 +1,281 @@
+openapi: 3.1.0
+info:
+  title: Projects API
+  version: 1.0.0
+  description: API for managing projects, including tasks, attachments, participants, and stats.
+servers:
+  - url: https://linked.example.com
+    description: Production server
+paths:
+  /projects:
+    get:
+      summary: Get all projects
+      operationId: getProjects
+      responses:
+        '200':
+          description: List of all projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    name:
+                      type: string
+                    status:
+                      type: string
+      tags:
+        - Projects
+    post:
+      summary: Create a new project
+      operationId: createProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
+      responses:
+        '201':
+          description: Project created successfully
+      tags:
+        - Projects
+
+  /projects/stats:
+    get:
+      summary: Get overall projects statistics
+      operationId: getProjectsStats
+      responses:
+        '200':
+          description: Projects statistics
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+        - Projects
+
+  /projects/{projectId}:
+    get:
+      summary: Get project details
+      operationId: getProjectDetails
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Project details
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+        - Projects
+    put:
+      summary: Update project details
+      operationId: updateProject
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Project updated successfully
+      tags:
+        - Projects
+    delete:
+      summary: Delete a project
+      operationId: deleteProject
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Project deleted successfully
+      tags:
+        - Projects
+
+  /projects/{projectId}/attachments:
+    get:
+      summary: Get project attachments
+      operationId: getProjectFiles
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List of attachments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+      tags:
+        - Projects
+    post:
+      summary: Add attachments to a project
+      operationId: addProjectAttachments
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '201':
+          description: Attachments added
+      tags:
+        - Projects
+
+  /projects/{projectId}/participants:
+    get:
+      summary: Get project participants
+      operationId: getProjectParticipants
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List of participants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+      tags:
+        - Projects
+
+  /projects/{projectId}/tasks:
+    get:
+      summary: Get project tasks
+      operationId: getProjectTasks
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+      tags:
+        - Projects
+
+  /projects/{projectId}/tasks/stats:
+    get:
+      summary: Get project task statistics
+      operationId: getProjectTasksStats
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Task statistics
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+        - Projects
+
+  /projects/{projectId}/submit:
+    patch:
+      summary: Submit a project
+      operationId: submitProject
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Project submitted
+      tags:
+        - Projects
+
+  /projects/{projectId}/assign-manager/{managerId}:
+    patch:
+      summary: Assign a manager to a project
+      operationId: assignProjectManager
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: managerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Manager assigned
+      tags:
+        - Projects
